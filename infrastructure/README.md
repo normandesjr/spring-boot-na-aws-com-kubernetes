@@ -86,3 +86,25 @@ Then push our image (use full ecr_uri):
 ````
 docker push <ecr_uri>:latest
 ````
+
+### Create Deploy Manifest
+
+Now we should be able to deploy our application
+
+````
+kubectl apply -f manifests/personal-loan-deployment.yaml
+````
+
+Checking:
+
+````
+kubectl get deployments
+kubectl get pods
+kubectl logs -f <pod-name>
+````
+
+Deleting deployment:
+
+````
+kubectl delete deployment personal-loan
+````
