@@ -1,20 +1,27 @@
 package com.hibicode.personalloan.controller;
 
 import com.hibicode.personalloan.controller.resource.OfferRequest;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.hibicode.personalloan.service.OfferService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/offers")
 public class OfferController {
 
+    private OfferService offerService;
+
+    public OfferController(OfferService offerService) {
+        this.offerService = offerService;
+    }
+
     @PostMapping
+    @ResponseStatus(CREATED)
     public void create(@RequestBody @Valid OfferRequest offerRequest) {
-        System.out.println(offerRequest);
+        offerService.save(offerRequest.toDomain());
     }
 
 }

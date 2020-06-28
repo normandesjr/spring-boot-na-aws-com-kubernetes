@@ -1,41 +1,35 @@
-package com.hibicode.personalloan.controller.resource;
+package com.hibicode.personalloan.repository.entity;
 
-import com.hibicode.personalloan.controller.validation.offer.ValidNumbersOfPayments;
-import com.hibicode.personalloan.controller.validation.offer.ValidTicketsValues;
-import com.hibicode.personalloan.service.domain.Offer;
-
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
-@ValidTicketsValues
-@ValidNumbersOfPayments
-public class OfferRequest {
+@Table(name = "offer")
+@Entity
+public class OfferEntity {
 
-    @DecimalMin("0.01")
-    @NotNull
+    @Id
+    private Long id;
     private BigDecimal minimumTicket;
-
-    @DecimalMin("0.01")
-    @NotNull
     private BigDecimal maximumTicket;
-
-    @DecimalMin("0.0")
-    @NotNull
     private BigDecimal monthlyInterestRate;
-
-    @Min(1)
-    @NotNull
     private Integer minimumNumberOfPayments;
-
-    @Min(1)
-    @NotNull
     private Integer maximumNumberOfPayments;
-
-    @Min(1)
-    @NotNull
     private Integer daysToFirstPayment;
+    private LocalDateTime dateActivated;
+    private LocalDateTime dateDeactivated;
+    private Boolean active;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public BigDecimal getMinimumTicket() {
         return minimumTicket;
@@ -85,21 +79,40 @@ public class OfferRequest {
         this.daysToFirstPayment = daysToFirstPayment;
     }
 
-    public Offer toDomain() {
-        return new Offer(minimumTicket, maximumTicket, monthlyInterestRate, minimumNumberOfPayments,
-                maximumNumberOfPayments, daysToFirstPayment);
+    public LocalDateTime getDateActivated() {
+        return dateActivated;
+    }
+
+    public void setDateActivated(LocalDateTime dateActivated) {
+        this.dateActivated = dateActivated;
+    }
+
+    public LocalDateTime getDateDeactivated() {
+        return dateDeactivated;
+    }
+
+    public void setDateDeactivated(LocalDateTime dateDeactivated) {
+        this.dateDeactivated = dateDeactivated;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Override
-    public String toString() {
-        return "OfferRequest{" +
-                "minimumTicket=" + minimumTicket +
-                ", maximumTicket=" + maximumTicket +
-                ", monthlyInterestRate=" + monthlyInterestRate +
-                ", minimumNumberOfPayments=" + minimumNumberOfPayments +
-                ", maximumNumberOfPayments=" + maximumNumberOfPayments +
-                ", daysToFirstPayment=" + daysToFirstPayment +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OfferEntity that = (OfferEntity) o;
+        return Objects.equals(id, that.id);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -1,7 +1,10 @@
-package com.hibicode.personalloan.error;
+package com.hibicode.personalloan.error.response;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class ValidationErrorResponse {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String field;
     private String message;
     private Object rejectedValue;
