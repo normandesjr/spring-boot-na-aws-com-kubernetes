@@ -7,4 +7,4 @@ ADD target/personal-loan*.jar /app/app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=production", "/app/app.jar"]
