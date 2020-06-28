@@ -1,17 +1,21 @@
 package com.hibicode.personalloan.repository.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.hibicode.personalloan.service.domain.Offer;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import static java.lang.Boolean.TRUE;
 
 @Table(name = "offer")
 @Entity
 public class OfferEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private BigDecimal minimumTicket;
     private BigDecimal maximumTicket;
@@ -22,6 +26,20 @@ public class OfferEntity {
     private LocalDateTime dateActivated;
     private LocalDateTime dateDeactivated;
     private Boolean active;
+
+    public OfferEntity() {
+    }
+
+    public OfferEntity(Offer offer) {
+        this.minimumTicket = offer.getMinimumTicket();
+        this.maximumTicket = offer.getMaximumTicket();
+        this.monthlyInterestRate = offer.getMonthlyInterestRate();
+        this.minimumNumberOfPayments = offer.getMinimumNumberOfPayments();
+        this.maximumNumberOfPayments = offer.getMaximumNumberOfPayments();
+        this.daysToFirstPayment = offer.getDaysToFirstPayment();
+        this.dateActivated = LocalDateTime.now(Clock.systemUTC());
+        this.active = TRUE;
+    }
 
     public Long getId() {
         return id;
