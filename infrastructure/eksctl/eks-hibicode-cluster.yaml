@@ -1,0 +1,30 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eks-hibicode-cluster
+  region: us-east-1
+
+availabilityZones: ["us-east-1a", "us-east-1b"]
+
+nodeGroups:
+  - name: ng-scale-a
+    instanceType: t2.small
+    desiredCapacity: 1
+    maxSize: 3
+    availabilityZones: ["us-east-1a"]
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+    labels:
+      nodegroup-type: scale-workload
+  - name: ng-scale-b
+    instanceType: t2.small
+    desiredCapacity: 1
+    maxSize: 3
+    availabilityZones: ["us-east-1b"]
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+    labels:
+      nodegroup-type: scale-workload
