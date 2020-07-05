@@ -15,6 +15,7 @@ spec:
       containers:
         - name: personal-loan
           image: 746213696263.dkr.ecr.us-east-1.amazonaws.com/hibicode
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
       nodeSelector:
