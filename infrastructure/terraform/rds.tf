@@ -15,7 +15,7 @@ module "rds" {
   password = local.personal_loan_variables.password
   port = "5432"
 
-//  vpc_security_group_ids = [aws_security_group.database.id]
+  vpc_security_group_ids = [aws_security_group.database_security.id]
   create_db_parameter_group = false
 
   major_engine_version = "9.6"
@@ -26,7 +26,7 @@ module "rds" {
 
   multi_az = "false"
 
-  subnet_ids = var.private_subnet_ids
+  subnet_ids = data.aws_subnet_ids.private_subnets.ids
 }
 
 output "database_endpoint" {

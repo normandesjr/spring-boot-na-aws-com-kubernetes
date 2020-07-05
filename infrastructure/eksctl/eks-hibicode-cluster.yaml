@@ -13,6 +13,7 @@ nodeGroups:
     desiredCapacity: 1
     maxSize: 3
     availabilityZones: ["us-east-1a"]
+    privateNetworking: true
     iam:
       withAddonPolicies:
         autoScaler: true
@@ -23,6 +24,7 @@ nodeGroups:
     desiredCapacity: 1
     maxSize: 3
     availabilityZones: ["us-east-1b"]
+    privateNetworking: true
     iam:
       withAddonPolicies:
         autoScaler: true

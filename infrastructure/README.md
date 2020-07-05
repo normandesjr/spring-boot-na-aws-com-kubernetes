@@ -108,3 +108,37 @@ Deleting deployment:
 ````
 kubectl delete deployment personal-loan
 ````
+
+### Deleting infrastructure
+
+````
+eksctl delete cluster -f eks-hibicode-cluster.yaml --profile hibicode
+````
+
+````
+terraform destroy
+````
+
+### Getting a shell to a container
+
+Create the Pod:
+
+````
+kubectl apply -f manifests/shell-demo.yaml
+````
+
+Verify that the container is running:
+
+````
+kubectl get pods
+````
+
+Get a shell to the running container:
+
+````
+kubectl exec --stdin --tty shell-demo -- /bin/bash
+````
+
+
+
+
