@@ -61,7 +61,15 @@ terraform apply
 
 ### Dockerizing and pushing the app
 
-Build application:
+To improve image size separating in layers, we'll use jib from Google.
+
+It is configured in pom.xml and to build the project just use:
+
+````
+./mvnw compile jib:dockerBuild
+````
+
+If you want to see the tradicional way, build like this:
 
 ````
 docker build -t personal-load .
