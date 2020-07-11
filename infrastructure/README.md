@@ -147,6 +147,82 @@ Get a shell to the running container:
 kubectl exec --stdin --tty shell-demo -- /bin/bash
 ````
 
+### Cluster AutoScaler
 
+#### Install Cluster Auto Scaler in cluster:
 
+````
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+````
 
+To ensure that our autoscaler deployment do not be removed:
+
+```` 
+kubectl -n kube-system annotate deployment.apps/cluster-autoscaler cluster-autoscaler.kubernetes.io/safe-to-evict="false"
+````
+
+Get the last version of autoscaler for our Kubernetes (EKS) version - https://github.com/kubernetes/autoscaler/releases
+
+Then edit deployment to set it:
+
+````
+kubectl -n kube-system edit deployment cluster-autoscaler 
+````
+
+- Replace: YOUR_CLUSTER_NAME with your cluster name
+
+Add the following properties:
+
+- --balance-similar-node-groups 
+- --skip-nodes-with-system-pods=false
+
+And finally edit the image version got on Github 
+
+The final version will be something like this:
+
+````
+- --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/eks-hibicode-cluster
+- --balance-similar-node-groups
+- --skip-nodes-with-system-pods=false
+image: k8s.gcr.io/cluster-autoscaler:v1.16.5
+````
+
+Update the image:
+
+````
+kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.16.5
+````
+
+Now, lets check the logs:
+
+````
+kubectl -n kube-system get deployment
+kubectl logs -f deployment/cluster-autoscaler -n kube-system
+kubectl -n kube-system describe deployments cluster-autoscaler
+````
+
+Reference: https://docs.aws.amazon.com/pt_br/eks/latest/userguide/cluster-autoscaler.html#ca-ng-considerations
+
+### Application Load Balancer
+
+Walk through: https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/walkthrough/echoserver/
+
+#### Exposing Personal Loan throughout ALB
+
+````
+kubectl apply -f manifests/personal-loan-namespace.yaml &
+kubectl apply -f manifests/personal-loan-service.yaml &
+kubectl apply -f manifests/personal-loan-deployment.yaml
+````
+
+Then, we can deploy ingress:
+
+````
+kubectl apply -f manifests/personal-loan-ingress.yaml
+````
+
+Check if alb-ingress-controller create the resources:
+
+````
+kubectl logs -n kube-system $(kubectl get po -n kube-system | egrep -o 'alb-ingress[a-zA-Z0-9-]+') | grep 'personalloan\/personal-loan'
+````

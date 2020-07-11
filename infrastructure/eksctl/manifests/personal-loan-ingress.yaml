@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: personal-loan
+  namespace: personalloan
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/tags: Environment=production,Team=hibicode
+    alb.ingress.kubernetes.io/subnets: subnet-001ec9832ee74e97b,subnet-096872904bbd5848f
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+spec:
+  rules:
+    - host: personalloan.hibicode.com
+      http:
+        paths:
+          - backend:
+              serviceName: personal-loan
+              servicePort: 80
