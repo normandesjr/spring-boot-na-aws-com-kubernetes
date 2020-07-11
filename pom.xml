@@ -89,7 +89,8 @@
 				<version>2.4.0</version>
 				<configuration>
 					<to>
-						<image>personal-loan</image>
+<!--						<image>personal-loan</image>-->
+						<image>746213696263.dkr.ecr.us-east-1.amazonaws.com/hibicode</image>
 					</to>
 					<container>
 						<environment>
