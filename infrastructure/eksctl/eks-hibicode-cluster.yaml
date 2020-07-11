@@ -17,10 +17,14 @@ nodeGroups:
     iam:
       attachPolicyARNs:
         - arn:aws:iam::746213696263:policy/ReadSecretsManager
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
       withAddonPolicies:
         autoScaler: true
     labels:
       nodegroup-type: scale-workload
+
   - name: ng-scale-b
     instanceType: t2.small
     desiredCapacity: 1
@@ -30,6 +34,9 @@ nodeGroups:
     iam:
       attachPolicyARNs:
         - arn:aws:iam::746213696263:policy/ReadSecretsManager
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
       withAddonPolicies:
         autoScaler: true
     labels:
